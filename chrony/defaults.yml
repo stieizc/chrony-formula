@@ -1,0 +1,17 @@
+# Default settings for chrony formula
+---
+package_name: chrony
+service_name: chronyd
+ensure_latest: True
+ensure_service:
+  running: True
+  enabled: True
+config: /etc/chrony.conf
+key_file: /etc/chrony.keys
+options:
+  present:
+    server:
+      - 0.pool.ntp.org
+      - 1.pool.ntp.org
+      - 2.pool.ntp.org
+  absent: []
