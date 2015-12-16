@@ -4,7 +4,7 @@
 chrony config set {{key}} {{val}}:
   file.replace:
     - name: {{chrony.config}}
-    - pattern: '^\s*{{key}} {{val}}\s*$'
+    - pattern: '^\s*#*\s*{{key}} {{val}}\s*$'
     - repl: '{{key}} {{val}}'
     - append_if_not_found: True
     - require:
@@ -19,7 +19,7 @@ chrony config set {{key}} {{val}}:
 chrony config absent {{option}}:
   file.replace:
     - name: {{chrony.config}}
-    - pattern: '^\s*#*\s*({{option}}.*)$'
+    - pattern: '^\s*({{option}}.*)$'
     - repl: '# \1'
     - require:
       - pkg: install chrony package
