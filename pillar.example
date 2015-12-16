@@ -1,0 +1,48 @@
+# -*- mode: YAML -*-
+# Example Pillar settings for chrony
+---
+chrony:
+  package_name: chrony
+  service_name: chronyd
+
+  # Ensure that the chrony package is up-to-date
+  ensure_latest: True
+
+  ensure_service:
+    # Ensure that the chrony service is running
+    running: True
+    # Ensure that the chrony service is enabled
+    enabled: True
+
+  # The chrony config file location
+  config: /etc/chrony.conf
+
+  # If keys_managed, will override the keys in chrony keys file
+  # Notice that chrony drop key support from 2.2!
+  key_list:
+    - 1 topsecret
+    - 2 stillverysecret
+  keys_managed: False
+
+  # Options are splitted in two parts, the key and the value
+  options:
+
+    # List of the *keys* of the options to remove.
+    # `absent` is executed first, then `present`
+    absent:
+      - server
+
+    # List of the key-value pairs of options to add.
+    # The value parts can be strings or list of strings if more than one line
+    # is needed, for example there could be many `server` to listen to.
+    # Notice that the options in this dict is removed first, then recreated
+    present:
+      server:
+        - 0.pool.ntp.org iburst
+        - 1.pool.ntp.org
+        - 2.pool.ntp.org
+
+      # Notice: Most of the time the `keyfile` option *isn't* needed even
+      # when keys need to be managed, the default config often contains one,
+      # and will be used by the formula
+      keyfile: /etc/chrony.keys
