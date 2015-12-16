@@ -7,7 +7,6 @@ ensure_service:
   running: True
   enabled: True
 config: /etc/chrony.conf
-key_file: /etc/chrony.keys
 options:
   present:
     server:

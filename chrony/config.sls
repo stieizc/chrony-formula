@@ -34,3 +34,4 @@ chrony config absent {{option}}:
     {% endfor %}
   {% endif %}
 {% endfor %}
+
