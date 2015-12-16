@@ -28,14 +28,14 @@ chrony:
   options:
 
     # List of the *keys* of the options to remove.
-    # `absent` is executed first, so can be used to purge default settings
-    # like default `server`s in the distribution's default config
+    # `absent` is executed first, then `present`
     absent:
       - server
 
     # List of the key-value pairs of options to add.
     # The value parts can be strings or list of strings if more than one line
     # is needed, for example there could be many `server` to listen to.
+    # Notice that the options in this dict is removed first, then recreated
     present:
       server:
         - 0.pool.ntp.org iburst
