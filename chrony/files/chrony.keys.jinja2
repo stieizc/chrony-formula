@@ -1,0 +1,4 @@
+{%- from 'chrony/map.jinja2' import chrony %}
+{%- for key in chrony.key_list -%}
+{{key}}
+{% endfor -%}

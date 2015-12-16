@@ -4,6 +4,9 @@
 ---
 include:
   - .config
+{% if chrony.keys_managed and chrony.keys %}
+  - .keys
+{% endif %}
 
 install chrony package:
   pkg.{{pkg_func}}:
@@ -16,4 +19,7 @@ chrony service:
     - enable: {{chrony.ensure_service.enabled}}
     - watch:
       - sls: chrony.config
+  {% if chrony.keys_managed and chrony.keys %}
+      - sls: chrony.keys
+  {% endif %}
 {% endif %}
