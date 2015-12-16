@@ -14,8 +14,7 @@ chrony config set {{key}} {{val}}:
   {% endif %}
 {%- endmacro %}
 
----
-{% for option in chrony.options.absent %}
+{% macro chrony_remove_option(option) -%}
 chrony config absent {{option}}:
   file.replace:
     - name: {{chrony.config}}
@@ -23,15 +22,21 @@ chrony config absent {{option}}:
     - repl: '# \1'
     - require:
       - pkg: install chrony package
-{% endfor %}
+{%- endmacro %}
 
-{% for key, val in chrony.options.present.iteritems() %}
-  {% if val is string %}
+---
+{%- for option in chrony.options.absent %}
+{{chrony_remove_option(option)}}
+{%- endfor %}
+
+{%- for key, val in chrony.options.present.iteritems() %}
+{{chrony_remove_option(key)}}
+  {%- if val is string %}
 {{chrony_set_option(key, val)}}
-  {% else %}
-    {% for _val in val %}
+  {%- else %}
+    {%- for _val in val %}
 {{chrony_set_option(key, _val)}}
-    {% endfor %}
-  {% endif %}
-{% endfor %}
+    {%- endfor %}
+  {%- endif %}
+{%- endfor %}
 
